@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <title>Jquery</title>
+    <style>
+        p {
+          margin: 8px;
+          font-size: 16px;
+        }
+        .selected {
+          color: rgb(255, 0, 0);
+        }
+        .highlight {
+          background: rgb(199, 199, 68);
+        }
+        </style>
+</head>
+<body>
+    <div class="before">
+        <p id="one">Hello</p>
+        <p id="two">and</p>
+        <p id="three">Goodbye</p>
+    </div>
+
+    <div class="after">
+        <p id="one1">Welcome</p>
+        <p id="two2">to</p>
+        <p id="three">Contour</p>
+    </div>
+
+    <p id="demo">Hello I am after tag.</p>
+
+    <div class="loading"></div>
+    <div class="loading1"></div>
+    <div class="json"></div>
+    <ol id="users"></ol>
+    <div id="result"></div>
+
+    <div class="trigger">Trigger</div>
+    <div class="result"></div>
+    <div class="log"></div>
+
+    <br/>
+    <div id="clickme">
+        Click here
+    </div>
+    <img id="book" src="https://th.bing.com/th/id/OIP.CqBN1WtEX4iwFwgqLDrKBQHaHa?pid=ImgDet&rs=1" alt="" width="100" 
+    height="123" style="position: relative; left: 10px;">
+
+    <br><br>
+    <button class="dieCheck1" >Click it &raquo;</button>
+
+    <br><br>
+    <form>
+        <input id="target" type="text" value="Field 1">
+        <input type="text" value="Field 2">
+    </form>
+    <div id="other">
+        Trigger the handler
+    </div>
+
+    <script>
+        //jquery implementation of addClass() & addBack() method
+        $('div.before').find("p").addClass("selected highlight");
+        $('div.after').find("p").addBack().addClass("selected highlight");
+
+        //after method
+        $('p#demo').after('<b>Don`t touch..</b>');
+
+        //load method
+        $('document').ready(function(){
+            $('div.loading').load('hello.html');
+        });
+
+        //get in Ajax
+        $.get('hello.html', function(data){
+            $('div.loading1').html(data);
+        });
+
+        //get data in json form
+        $.getJSON('users.json', function(data){
+            $.each(data, function(i, user){
+                $('ol#users').append('<li>'+user.firstName+'</li>')
+            })
+        });
+
+        //ajax method
+        $.ajax({
+            method: 'GET',
+            url: 'http://jsonplaceholder.typicode.com/posts',
+            dataType: 'json'
+        }).done(function(data){
+            console.log(data);
+            $.map(data, function(post, i){
+                $('div#result').append('<h3>'+post.title+'</h3><p>'+post.body+'</p>')
+            })
+        });
+
+        //ajaxComplete method
+        $(document).ajaxComplete(function(){
+            $("div.log").text("Triggered ajaxComplete handler.");
+        });
+
+        //ajaxError method
+        $(document).ajaxError(function(){
+            $("div.log").text("Triggered ajaxError handler.");
+        });
+
+        //ajaxSend method
+        $(document).ajaxSend(function(){
+            $("div.log").text("Triggered ajaxSend handler.");
+        });
+
+        //ajaxStart method
+        $(document).ajaxStart(function(){
+            $("div.log").text("Triggered ajaxStart handler.");
+        });
+
+        //ajaxStop method
+        $(document).ajaxStop(function(){
+            $("div.log").text("Triggered ajaxStop handler.");
+        });
+
+        //ajaxSuccess method
+        $(document).ajaxSuccess(function(){
+            $("div.log").text("Triggered ajaxSuccess handler.");
+        });
+
+        //affect all elements
+        $("*").css("border", "3px solid green");
+
+        //animate Method
+        $('#clickme').click(function(){
+            $('#book').animate({
+                opacity: 0.25,
+                left: "+=50",
+                height: "toggle"
+            }, 2000, function(){
+                //animate complete
+            });
+        });
+
+        //die method
+        $('button#dieCheck').live();
+
+        //blur
+        $( "p#blur" ).blur();
+
+        //blur
+        $( "#other" ).click(function() {
+            $( "#target" ).blur();
+        });
+    </script>
+</body>
+</html>
